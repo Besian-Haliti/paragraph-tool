@@ -47,7 +47,7 @@ export function ParagraphForm({ onSubmit, initialPrompt, onPromptChange }: Parag
         <Textarea id="paragraph" name="paragraph" placeholder="Enter your paragraph here..." className="mt-1" />
       </div>
       <div>
-        <Label htmlFor="image">Image of Paragraph (optional)</Label>
+        <Label htmlFor="image">Image of Paragraph (Optional, Must still include paragraph text)</Label>
         <Input id="image" name="image" type="file" accept="image/*" className="mt-1" />
       </div>
       <div>

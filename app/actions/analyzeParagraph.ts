@@ -6,7 +6,7 @@ import { processImage } from "../utils/imageProcessing"
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "")
 
 export async function analyzeParagraph(formData: FormData) {
-  const question = formData.get("question") as string
+  const question = formData.get("question") as string | ""
   const paragraph = formData.get("paragraph") as string
   const imageFile = formData.get("image") as File | null
   const customPrompt = formData.get("prompt") as string
