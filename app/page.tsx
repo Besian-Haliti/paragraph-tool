@@ -10,33 +10,36 @@ Paragraphs: {content}
 
 Tokenize and Classify the Paragraphs into Knowledge, Application, Analysis, and Evaluation (KAAE) 
 According to the Edexcel A A-Level Economics Spec. 
-Step 1: Paragraph Separation & Tokenization
-Each paragraph should be treated as a separate entity.
-Split each paragraph into self-contained blocks where each block represents a single idea or sentence.
+Step 1: Recognize the paragraphs
+Step 2: Sentence Separation & Tokenization
+Seperate the sentences, without changing anything into Knowledge, application, analysis and evaluation sentences. The way you should separate them is consider these guidelines, and ask what does it achieve concerning the question that was asked:
 
-Step 2: Classification Rules (KAAE Framework)
-Each block should be classified under one of the following categories:
+Question: {question}
 
-Knowledge (K): Definitions, explanations, or introductions. Look for words like: “This means, Defined as, This refers to…”
+Each block should be classified under one of the following categories using the criteria stated in these categories:
 
-Application (A): Applying knowledge to examples, case studies, or real-world scenarios. Look for words like: “For example, With reference to the figure, The graph shows, Here we can see…”
+Knowledge (K) - This is your knowledge mark. Could be an explicit definition of a concept or a just the identification of a factor/reason.e.g saying In any case it shows you understand what they are asking.
 
-Analysis (A): Explaining relationships between variables, breaking down causes/effects. Look for words like: “This results in, This leads to…”
+Appplication (A) - This is your application mark. It is different to knowledge because it requires outside information/data. For Section A & B you will most likely be given data (this may be in the form of an extract, diagram or table) and it is your job to clearly state how the extract/table/diagram supports your point. For section C (the 25 marker) there is likely to be limited/no data and so it is your job to read around an industry of your choice/a developing country of your choice so that you are able to bring data/knowledge to support your point.
 
-Evaluation (E): Making judgments, counterarguments, or assessing significance. This includes: 
-Judgments: “It depends on..., The effectiveness of this depends...”
-Counterarguments: “However..., Although this is true..., An alternative is...”
-Magnitude or Significance: “The most important factor is..., The long-term impact is more significant than the short-term...”
+Analysis (A) - This is your analysis mark. Edexcel are looking for "chains of analysis" here but YES you can use diagrams as well. Let me explain this with an example. Imagine you have a question regarding how Monetary policy may be used to combat inflation. One point may be the increase of interest rates. Student A will not use chains and Student B will.
+Student A: "By increasing interest rates there will be a fall in inflation"
+Student B: "By increasing interest rates, this will rise the cost of repayment on variable rate mortgages, leading to a fall in effective disposable income which may cause the output gap to become negative leading to a possible fall in inflation."
+Now I went a bit overkill on the example but its important that you use those terms such as "which means" & "this leads to". That is chains of analysis and Edexcel LOVE it.
+
+Evaluation (E) - This is probably the most important one. Evaluation will be expected for the 8, 10, 12, 15 and 25 marker with differing degrees of intensity. Just now with evaluation it is all about directing the examiner to your way of answering the question. This may be done through generic measures such as considering the magnitude of the proposal (e.g. whether or not the tax will be large enough to have the intended effect of reducing consumption.), Time lag and the long run vs short run. There may also be some more technical arguments which may merit a greater mark but this depends solely on the question.
 
 Output Format & Instructions
-Each paragraph must be processed separately.
-Each block within a paragraph should be categorized under Knowledge, Application, Analysis, or Evaluation.
+Each paragraph must be processed in separate rows.
+Each sentence within a paragraph should be categorized under Knowledge, Application, Analysis, or Evaluation.
+If multiple sentences of the same exist within a paragraph separate them in category with a '###'
 If a category is missing in a paragraph, explicitly mark it as "missing" in the output. 
 Always return using the Output format even if you cannot split it into kaae
 
 Respond with a JSON array where each object represents a paragraph, like this:
 [
   {
+    "paragraph number": "...",
     "knowledge": "...",
     "application": "...",
     "analysis": "...",

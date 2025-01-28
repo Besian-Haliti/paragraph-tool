@@ -6,6 +6,7 @@ import { processImage } from "../utils/imageProcessing"
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "")
 
 export async function analyzeParagraph(formData: FormData) {
+  const question = formData.get("question") as string
   const paragraph = formData.get("paragraph") as string
   const imageFile = formData.get("image") as File | null
   const customPrompt = formData.get("prompt") as string
@@ -27,7 +28,7 @@ export async function analyzeParagraph(formData: FormData) {
   }
 
   // Ensure AI returns JSON only
-  const prompt = `${customPrompt.replace("{content}", content)}
+  const prompt = `${customPrompt.replace("{content}", content)}${customPrompt.replace("{question}", question)}
 
   Please return the response strictly in JSON format. No explanations, only a valid JSON array.`;
 

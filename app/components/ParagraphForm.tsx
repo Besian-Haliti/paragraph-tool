@@ -39,6 +39,10 @@ export function ParagraphForm({ onSubmit, initialPrompt, onPromptChange }: Parag
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
+        <Label htmlFor="question">Question</Label>
+        <Textarea id="question" name="question" placeholder="Enter your question here..." className="mt-1" />
+      </div>
+      <div>
         <Label htmlFor="paragraph">Paragraph</Label>
         <Textarea id="paragraph" name="paragraph" placeholder="Enter your paragraph here..." className="mt-1" />
       </div>
