@@ -1,15 +1,17 @@
 "use server"
 
-import { GoogleGenerativeAI } from "@google/generative-ai"
+import OpenAI from "openai"
 import { processImage } from "../utils/imageProcessing"
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "")
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+})
 
 export async function analyzeParagraph(formData: FormData) {
-  const question = formData.get("question") as string | ""
+  const question = formData.get("question") as string || "No Question Given"
   const paragraph = formData.get("paragraph") as string
   const imageFile = formData.get("image") as File | null
-  const customPrompt = formData.get("prompt") as string
+  const customPrompt = formData.get("prompt") as string 
 
   if (!paragraph) {
     throw new Error("Paragraph is required")
@@ -27,27 +29,27 @@ export async function analyzeParagraph(formData: FormData) {
     }
   }
 
-  // Ensure AI returns JSON only
-  const prompt = `${customPrompt.replace("{content}", content)}${customPrompt.replace("{question}", question)}
-
-  Please return the response strictly in JSON format. No explanations, only a valid JSON array.`;
+  const finalPrompt = `${customPrompt
+    .replace("{content}", content)
+    .replace("{question}", question)}`
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" })
+    const response = await openai.chat.completions.create({
+      model: "o1-preview",
+      messages: [
+        { role: "user", content: finalPrompt },
+      ],
+      temperature: 1,
+    })
 
-    const result = await model.generateContent(prompt)
-    const response = await result.response
-    const text = response.text()
+    const result = response.choices[0].message.content || ""
 
-    console.log("AI Raw Response:", text)  // Debugging log to inspect response
-
-    // Extract JSON if there are unexpected characters
-    const jsonMatch = text.match(/\{[\s\S]*\}|\[[\s\S]*\]/);
+    const jsonMatch = result.match(/\{[\s\S]*\}|\[[\s\S]*\]/);
     if (!jsonMatch) {
       throw new Error("No valid JSON found in AI response");
     }
 
-    const parsedResponse = JSON.parse(jsonMatch[0]); // Parse JSON
+    const parsedResponse = JSON.parse(jsonMatch[0]);
 
     if (!Array.isArray(parsedResponse)) {
       throw new Error("Unexpected response format");
@@ -55,7 +57,7 @@ export async function analyzeParagraph(formData: FormData) {
 
     return parsedResponse;
   } catch (error) {
-    console.error("Error analyzing paragraph:", error);
-    throw new Error("Failed to analyze paragraph");
+    console.error("Error analyzing paragraph:", error)
+    throw new Error("Failed to analyze paragraph")
   }
 }
